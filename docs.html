@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kazakh Crafts - Documentation</title>
+    <style>
+        :root {
+            --black: #0A0A0A;
+            --gold: #C6A96D;
+            --light-gold: #D4B982;
+            --dark-gray: #161616;
+            --light-gray: #F5F5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--light-gray);
+        }
+
+        .navigation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--dark-gray);
+            padding: 2rem;
+            border-right: 1px solid rgba(198, 169, 109, 0.1);
+            overflow-y: auto;
+        }
+
+        .nav-logo {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            color: var(--light-gray);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--gold);
+        }
+
+        .nav-section {
+            margin-top: 1.5rem;
+        }
+
+        .nav-section-title {
+            color: var(--gold);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 4rem;
+            max-width: 1200px;
+        }
+
+        .doc-section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .doc-section h1 {
+            color: var(--gold);
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .doc-section h2 {
+            color: var(--gold);
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin: 2.5rem 0 1.5rem;
+        }
+
+        .doc-section h3 {
+            color: var(--light-gold);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin: 2rem 0 1rem;
+        }
+
+        .doc-section p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: rgba(245, 245, 245, 0.9);
+        }
+
+        .doc-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .doc-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--dark-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(198, 169, 109, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .doc-image:hover {
+            transform: translateY(-5px);
+        }
+
+        .doc-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .technique-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .technique-list li {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .technique-list li::before {
+            content: "•";
+            color: var(--gold);
+            position: absolute;
+            left: 0;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark-gray);
+            color: var(--gold);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border: 1px solid var(--gold);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        @media (max-width: 768px) {
+            .navigation {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+
+            .navigation.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1001;
+                background: var(--dark-gray);
+                border: 1px solid var(--gold);
+                color: var(--gold);
+                padding: 0.5rem;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleMenu()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+    </button>
+
+    <nav class="navigation">
+        <a href="index.html" class="nav-logo">Kazakh Crafts</a>
+        
+        <div class="nav-section">
+            <h2 class="nav-section-title">Traditional Textiles</h2>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#syrmak" class="nav-link">Syrmak Making</a></li>
+                <li class="nav-item"><a href="#kiiz" class="nav-link">Kiiz Production</a></li>
+                <li class="nav-item"><a href="#tuskiiz" class="nav-link">Tuskiiz Embroidery</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h2 class="nav-section-title">Metalwork & Jewelry</h2>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#filigree" class="nav-link">Filigree Work</a></li>
+                <li class="nav-item"><a href="#stone-setting" class="nav-link">Stone Setting</a></li>
+                <li class="nav-item"><a href="#embossing" class="nav-link">Metal Embossing</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h2 class="nav-section-title">Living Heritage</h2>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#education" class="nav-link">Educational Initiatives</a></li>
+                <li class="nav-item"><a href="#innovation" class="nav-link">Innovation in Tradition</a></li>
+                <li class="nav-item"><a href="#sustainability" class="nav-link">Cultural Sustainability</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section id="textiles" class="doc-section">
+            <h1>Traditional Textile Arts</h1>
+            <p>The art of textile making has been central to Kazakh culture for centuries, representing not just practical craftsmanship but also serving as a medium for preserving cultural memory and artistic expression.</p>
+            
+            <div class="doc-gallery">
+                <div class="doc-image">
+                    <img src="/api/placeholder/500/500" alt="Syrmak carpet detail" />
+                </div>
+                <div class="doc-image">
+                    <img src="/api/placeholder/500/500" alt="Felt making process" />
+                </div>
+                <div class="doc-image">
+                    <img src="/api/placeholder/500/500" alt="Traditional embroidery" />
+                </div>
+            </div>
+
+            <section id="syrmak">
+                <h2>Syrmak Making</h2>
+                <p>Syrmak represents one of the most distinctive forms of Kazakh felt carpet making. This intricate process involves cutting and inlaying patterns into felt to create stunning geometric and zoomorphic designs.</p>
+                <p>The technique requires exceptional skill and patience, as artisans must carefully cut and fit pieces together like a complex puzzle, ensuring clean lines and secure joining.</p>
+            </section>
+
+            <section id="kiiz">
+                <h2>Kiiz Production</h2>
+                <p>Kiiz, the traditional felt-making process, transforms raw wool into durable, weather-resistant textiles through a combination of moisture, pressure, and heat.</p>
+                <ul class="technique-list">
+                    <li><strong>Wool Preparation:</strong> Careful selection and cleaning of wool to ensure quality and durability.</li>
+                    <li><strong>Pattern Layout:</strong> Strategic placement of colored wool to create intricate designs.</li>
+                    <li><strong>Felting Process:</strong> Traditional techniques of rolling and pressing the wool to create firm, lasting felt.</li>
+                </ul>
+            </section>
+
+            <section id="tuskiiz">
+                <h2>Tuskiiz Embroidery</h2>
+                <p>Tuskiiz wall hangings showcase the height of Kazakh embroidery art, combining technical skill with artistic vision to create stunning decorative pieces.</p>
+                <p>These embroidered textiles often feature complex floral and geometric patterns, executed with a variety of stitching techniques that have been perfected over generations.</p>
+            </section>
+        </section>
+
+        <section id="jewelry" class="doc-section">
+            <h1>Metalwork & Jewelry</h1>
+            <p>Kazakh jewelry making, known as 'zerger oneri', represents one of the most sophisticated forms of traditional craftsmanship, combining technical expertise with artistic vision.</p>
+
+            <div class="doc-gallery">
+                <div class="doc-image">
+                    <img src="/api/placeholder/500/500" alt="Traditional jewelry pieces" />
+                </div>
+                <div class="doc-image">
+                    <img src="/api/placeholder/500/500" alt="Metalworking process" />
+                </div>
+                <div class="doc-image">
+                    <img src="/api/placeholder/500/500" alt="Contemporary jewelry" />
+                </div>
+            </div>
+
+            <section id="filigree">
+                <h2>Filigree Work</h2>
+                <p>Filigree work in Kazakh jewelry represents the pinnacle of metalworking precision, creating intricate patterns from fine metal threads.</p>
+                <ul class="technique-list">
+                    <li><strong>Wire Drawing:</strong> Creating extremely fine metal threads for detailed work.</li>
+                    <li><strong>Pattern Formation:</strong> Twisting and shaping wires into complex designs.</li>
+                    <li><strong>Surface Integration:</strong> Incorporating filigree elements into larger pieces.</li>
+                </ul>
+            </section>
+
+            <section id="stone-setting">
+                <h2>Stone Setting</h2>
+                <p>Traditional Kazakh stone setting techniques ensure both security and aesthetic beauty, often incorporating symbolic meanings through stone choice and placement.</p>
+            </section>
+
+            <section id="embossing">
+                <h2>Metal Embossing</h2>
+                <p>Metal embossing creates dimensional designs through careful manipulation of metal surfaces, requiring both strength and precision.</p>
+            </section>
+        </section>
+
+        <section id="heritage" class="doc-section">
+            <h1>Living Heritage</h1>
+            <p>The preservation and evolution of Kazakh crafts represent a vital bridge between traditional practices and contemporary artistic expression.</p>
+
+            <section id="education">
+                <h2>Educational Initiatives</h2>
+                <p>Modern programs working to preserve and transmit traditional craft knowledge to new generations, ensuring the continuity of these important cultural practices.</p>
+            </section>
+
+            <section id="innovation">
+                <h2>Innovation in Tradition</h2>
+                <p>Contemporary adaptations of traditional techniques, showing how ancient crafts remain relevant in modern contexts.</p>
+            </section>
+
+            <section id="sustainability">
+                <h2>Cultural Sustainability</h2>
+                <p>Strategies for maintaining traditional crafts while adapting to contemporary needs and markets.</p>
+            </section>
+        </section>
+    </main>
+
+    <a href="#" class="back-to-top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </a>
+
+    <script>
+        // Menu toggle for mobile
+        function toggleMenu() {
+            document.querySelector('.navigation').classList.toggle('active');
+        }
+
+        // Back to top button visibility and functionality
+        const backToTop = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    document.querySelector('.navigation').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

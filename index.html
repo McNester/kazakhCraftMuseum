@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kazakh Craft Heritage</title>
+    <style>
+        :root {
+            --black: #0A0A0A;
+            --gold: #C6A96D;
+            --light-gold: #D4B982;
+            --dark-gray: #161616;
+            --light-gray: #F5F5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--light-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .landing {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 2rem;
+            position: relative;
+            background: radial-gradient(circle at center, #161616 0%, #0A0A0A 100%);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: rgba(245, 245, 245, 0.8);
+        }
+
+        .craft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .craft-card {
+            background: var(--dark-gray);
+            padding: 2.5rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(198, 169, 109, 0.1);
+            cursor: pointer;
+        }
+
+        .craft-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: rgba(198, 169, 109, 0.3);
+        }
+
+        .craft-card h3 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .craft-card p {
+            color: rgba(245, 245, 245, 0.8);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .museum-nav {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .nav-btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        .museum-section {
+            min-height: 100vh;
+            padding: 2rem;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: var(--black);
+        }
+
+        .museum-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .museum-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .museum-frame {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            background: var(--dark-gray);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .museum-info {
+            background: var(--dark-gray);
+            padding: 3rem;
+            border-radius: 12px;
+            border: 1px solid rgba(198, 169, 109, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .museum-info h2 {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .museum-info p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: rgba(245, 245, 245, 0.9);
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--dark-gray);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .close-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .learn-more {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .learn-more:hover {
+            transform: translateX(5px);
+        }
+
+        .learn-more svg {
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .landing {
+                padding: 3rem 1.5rem;
+            }
+
+            .museum-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="landing">
+            <div class="content-wrapper">
+                <div class="header">
+                    <h1>Kazakh Craft Heritage</h1>
+                    <p class="subtitle">Experience the timeless artistry of Kazakhstan's master craftspeople through our virtual exhibitions and comprehensive documentation.</p>
+                </div>
+
+                <div class="craft-grid">
+                    <article class="craft-card" onclick="window.location.href='docs.html#textiles'">
+                        <h3>Traditional Textiles</h3>
+                        <p>Explore the rich heritage of Kazakh textile arts, from intricate carpet weaving to sophisticated embroidery techniques.</p>
+                        <a href="docs.html#textiles" class="learn-more">
+                            Learn More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14m-7-7l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="craft-card" onclick="window.location.href='docs.html#jewelry'">
+                        <h3>Metalwork & Jewelry</h3>
+                        <p>Discover the artistry of traditional Kazakh jewelry making and metalwork, featuring centuries-old techniques.</p>
+                        <a href="docs.html#jewelry" class="learn-more">
+                            Learn More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14m-7-7l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="craft-card" onclick="window.location.href='docs.html#heritage'">
+                        <h3>Living Heritage</h3>
+                        <p>Learn how traditional craftsmanship continues to evolve and inspire contemporary artists in Kazakhstan.</p>
+                        <a href="docs.html#heritage" class="learn-more">
+                            Learn More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14m-7-7l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </article>
+                </div>
+
+                <div class="museum-nav">
+                    <button class="nav-btn" onclick="showMuseum('textile-museum')">Textile Arts Museum</button>
+                    <button class="nav-btn" onclick="showMuseum('jewelry-museum')">Jewelry Museum</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section id="textile-museum" class="museum-section">
+        <button class="close-btn" onclick="hideMuseum()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="museum-content">
+                <iframe src="https://csmrk.kz/tour3d/" title="Traditional Textile Arts Museum" height="500" width="100%" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+            <div class="museum-info">
+                <h2>Traditional Textile Arts</h2>
+                <p>Step into our virtual gallery dedicated to the rich tradition of Kazakh textile arts. Here you'll discover the incredible craftsmanship behind traditional carpet weaving, felt making, and embroidery that have been passed down through generations.</p>
+                <p>Our collection showcases the diverse techniques and patterns that make Kazakh textiles unique, from the geometric designs of syrmak carpets to the intricate patterns of tuskiiz wall hangings.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="jewelry-museum" class="museum-section">
+        <button class="close-btn" onclick="hideMuseum()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="museum-content">
+                <iframe title="Jewelry & Metalwork Museum" loading="lazy" src="https://my.treedis.com/tour/kasteyev-murajayi" height="600" width="100%" allowfullscreen=""></iframe>
+            <div class="museum-info">
+                <h2>Jewelry & Metalwork Gallery</h2>
+                <p>Welcome to our virtual exhibition of traditional Kazakh jewelry and metalwork. This space celebrates the sophisticated art of 'zerger oneri', showcasing the incredible skill and creativity of Kazakh jewelers throughout history.</p>
+                <p>Explore our collection of traditional jewelry pieces, from elaborate headdress decorations to intricate breast ornaments. Each piece demonstrates the mastery of techniques such as filigree, stone setting, and metal embossing.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showMuseum(museumId) {
+            // Hide all sections
+            document.querySelectorAll('.museum-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected museum
+            document.getElementById(museumId).classList.add('active');
+
+            // Hide landing content
+            document.querySelector('.landing').style.display = 'none';
+        }
+
+        function hideMuseum() {
+            // Hide all museum sections
+            document.querySelectorAll('.museum-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show landing content
+            document.querySelector('.landing').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
